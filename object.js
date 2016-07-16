@@ -28,10 +28,16 @@ function Object(inX, inY, inSize, inType){
 	};
 
 	this.draw = function(){
+		var corner = 15;
 		fill(color);
-		rect(x * objSize, y * objSize, objSize, objSize);
+		rect(x * objSize, y * objSize, objSize, objSize, corner, corner, corner, corner);
 		fill(255);
-		text("x: " + x + " y: " + y, x * gridSize + 20, y * gridSize + 20);
+		stroke(0);
+		strokeWeight(3);
+		noFill();
+		rect(x * objSize, y * objSize, objSize, objSize, corner, corner, corner, corner);
+
+		//text("x: " + x + " y: " + y, x * gridSize + 20, y * gridSize + 20);
 		
 	};
 
