@@ -1,8 +1,3 @@
-// var objSize = 64;
-// var x;
-// var y;
-// var color;
-
 function Object(inX, inY, inSize, inType){
 
 	var x = inX;
@@ -18,7 +13,10 @@ function Object(inX, inY, inSize, inType){
 
 	var checked = false;
 
+<<<<<<< HEAD
 	
+=======
+>>>>>>> master
 
 	this.update = function(){
 		this.clicked();
@@ -27,10 +25,15 @@ function Object(inX, inY, inSize, inType){
 	};
 
 	this.draw = function(){
+		var corner = 15;
 		fill(color);
-		rect(x * objSize, y * objSize, objSize, objSize);
+		rect(x * objSize, y * objSize, objSize, objSize, corner, corner, corner, corner);
 		fill(255);
-		text("x: " + x + " y: " + y, x * gridSize + 20, y * gridSize + 20);
+		stroke(0);
+		strokeWeight(3);
+		noFill();
+		rect(x * objSize, y * objSize, objSize, objSize, corner, corner, corner, corner);
+
 		
 	};
 
@@ -60,6 +63,12 @@ function Object(inX, inY, inSize, inType){
 			
 			deleteArray.push(new Point(x, y));
 
+<<<<<<< HEAD
+=======
+			for(var i = 0; i < deleteArray.length; i++){
+			
+		}
+>>>>>>> master
 			this.crawl(new Point(x, y), true);
 			
 			
@@ -68,6 +77,10 @@ function Object(inX, inY, inSize, inType){
 
 	this.crawl = function(point, firstRun){
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 			for(var i = 0; i < deleteArray.length; i++){
 					if(deleteArray[i].x === point.x && deleteArray[i].y === point.y && firstRun === false){
 						console.log("break");
@@ -75,15 +88,23 @@ function Object(inX, inY, inSize, inType){
 					}
 				}
 
+<<<<<<< HEAD
 			
 			
 			if(this.checkLoc(point.x, point.y - 1)){//UP
 				
 				
+=======
+
+			if(this.checkLoc(point.x, point.y - 1)){//UP
+				
+				
+>>>>>>> master
 				deleteArray.push(new Point(point.x, point.y -1));
 				boxArray.setChecked(point.x, point.y -1);
 				 this.crawl(new Point(point.x, point.y -1), [point.x, point.y -1], false);
 				 
+<<<<<<< HEAD
 			}
 
 			if(this.checkLoc(point.x, point.y + 1)){//DOWN
@@ -93,11 +114,25 @@ function Object(inX, inY, inSize, inType){
 				 
 			}
 
+=======
+			}
+
+			if(this.checkLoc(point.x, point.y + 1)){//DOWN
+				deleteArray.push(new Point(point.x, point.y + 1));
+				boxArray.setChecked(point.x, point.y +1);
+				 this.crawl(new Point(point.x, point.y +1), [point.x, point.y +1], false);
+			}	 
+
+>>>>>>> master
 			if(this.checkLoc(point.x - 1, point.y)){//LEFT
 				deleteArray.push(new Point(point.x -1, point.y));
 				boxArray.setChecked(point.x -1, point.y);
 				 this.crawl(new Point(point.x -1, point.y), [point.x -1, point.y], false);
+<<<<<<< HEAD
 				
+=======
+				 
+>>>>>>> master
 			}
 
 			if(this.checkLoc(point.x + 1, point.y)){//RIGHT
