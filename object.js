@@ -13,6 +13,11 @@ function Object(inX, inY, inSize, inType){
 	var destroy = false;
 	setColor(inType);
 
+	var deleteArray = [];
+	var trackArray = [];
+
+	var checked = false;
+
 	// console.log("inX " + x);
 	// console.log("inY " + y);
 
@@ -25,6 +30,8 @@ function Object(inX, inY, inSize, inType){
 	this.draw = function(){
 		fill(color);
 		rect(x * objSize, y * objSize, objSize, objSize);
+		fill(255);
+		text("x: " + x + " y: " + y, x * gridSize + 20, y * gridSize + 20);
 		
 	};
 
@@ -56,37 +63,154 @@ function Object(inX, inY, inSize, inType){
 			//destroy = true;
 			// console.log("d = true");
 			// console.log(this.getDestroy());
-			boxArray.boxArrayDestroyObject(x, y);
-			this.checkUp();
+			//boxArray.boxArrayDestroyObject(x, y);
+			deleteArray.push(new Point(x, y));
+
+			for(var i = 0; i < deleteArray.length; i++){
+			//console.log("x: " + deleteArray[i].x + " y: " + deleteArray[i].y);
+			//boxArray.boxArrayDestroyObject(deleteArray[i].x, deleteArray[i].y);
+		}
+			this.crawl(new Point(x, y), true);
+			
 			
 		}
 	};
 
+	this.crawl = function(point, firstRun){
+
+		console.log("px: " + point.x + " py: " + point.y);
+		// while(array.length > 0 ){
+
+			for(var i = 0; i < deleteArray.length; i++){
+					if(deleteArray[i].x === point.x && deleteArray[i].y === point.y && firstRun === false){
+						console.log("break");
+						return;
+					}
+				}
+
+		
+
+		
+	
+			//deleteArray.concat(array); //merges every returned array
+
+			var currentLoc = point;
+
+			console.log("pclx: " + currentLoc.x + " pcly: " + currentLoc.y);
+
+			//deleteArray.push(new Point(currentLoc.x, currentLoc.y));
+
+			if(this.checkLoc(currentLoc.x, currentLoc.y - 1)){//UP
+				
+				//return [currentLoc.x, currentLoc.y -1];
+				deleteArray.push(new Point(currentLoc.x, currentLoc.y -1));
+				boxArray.setChecked(currentLoc.x, currentLoc.y -1);
+				 this.crawl(new Point(currentLoc.x, currentLoc.y -1), [currentLoc.x, currentLoc.y -1], false);
+				 //boxArray.boxArrayDestroyObject(new Point(currentLoc.x, currentLoc.y -1));
+			}
+
+			if(this.checkLoc(currentLoc.x, currentLoc.y + 1)){//DOWN
+				deleteArray.push(new Point(currentLoc.x, currentLoc.y + 1));
+				boxArray.setChecked(currentLoc.x, currentLoc.y +1);
+				 this.crawl(new Point(currentLoc.x, currentLoc.y +1), [currentLoc.x, currentLoc.y +1], false);
+				 //boxArray.boxArrayDestroyObject(new Point(currentLoc.x, currentLoc.y +1));
+			}
+
+			if(this.checkLoc(currentLoc.x - 1, currentLoc.y)){//LEFT
+				deleteArray.push(new Point(currentLoc.x -1, currentLoc.y));
+				boxArray.setChecked(currentLoc.x -1, currentLoc.y);
+				 this.crawl(new Point(currentLoc.x -1, currentLoc.y), [currentLoc.x -1, currentLoc.y], false);
+				 boxArray.boxArrayDestroyObject(new Point(currentLoc.x -1, currentLoc.y));
+			}
+
+			if(this.checkLoc(currentLoc.x + 1, currentLoc.y)){//RIGHT
+				deleteArray.push(new Point(currentLoc.x + 1, currentLoc.y));
+				boxArray.setChecked(currentLoc.x +1, currentLoc.y);
+				 this.crawl(new Point(currentLoc.x +1, currentLoc.y), [currentLoc.x +1, currentLoc.y], false);
+				 //boxArray.boxArrayDestroyObject(new Point(currentLoc.x +1, currentLoc.y));
+			}
+		//}
+
+		for(var i = 0; i < deleteArray.length; i++){
+			console.log("from the bottom x: " + deleteArray[i].x + " y: " + deleteArray[i].y);
+			boxArray.boxArrayDestroyObject(deleteArray[i].x, deleteArray[i].y);
+		}
+		deleteArray = [];
+	};
+
+
+
+
+
+
+	// this.check = function(x, y){
+	// 		this.checkUp(x, y - 1);
+	// 		this.checkDown();
+	// 		this.checkLeft();
+	// 		this.checkRight();
+	// 		//this.check();
+	// };
+
 	this.moveDown = function(){
 
 
-		//need to fix array index by having all checks use x and y cords NOT XY ARRAY INDEX!!!
-		//to move down loop through array and see if a box has a passed in x and y that is below current box. if yes return true; 
-		//if function returns false then move down.
+		
 
 		if(y * gridSize + gridSize < gameHeight && boxArray.checkBelow(x, y) === false){
-			//console.log("move called");
+			
 			y = y + 1;
 		}
 
 	};
 
 
-	this.checkUp = function(){//NEED TO MAKE BOUNDS !!!!!!!!!!!!!!!!!!!!!
-
-		//console.log(boxArray.getTypeFromArray(x, y - 1));
-
-		if(y > 0 && boxArray.getTypeFromArray(x, y - 1) === type){
-			//console.log("same");
-			boxArray.boxArrayDestroyObject(x, y - 1);
+	this.checkLoc = function(x, y){
+		if(y > -1 && x > -1 && x < gameWidth / gridSize  + 1 && y < gameHeight / gridSize  + 1 && boxArray.getTypeFromArray(x, y) === type && boxArray.getChecked(x, y) === false){
+			
+			return true;
+			
 		}
+		return false;
 	};
 	
+	this.getChecked = function(){
+		return checked;
+	};
+
+	this.setChecked = function(){
+		checked = true;
+	};
+	// this.checkDown = function(){
+
+	// 	//console.log(boxArray.getTypeFromArray(x, y - 1));
+
+	// 	if(y > 0 && boxArray.getTypeFromArray(x, y + 1) === type){
+	// 		//console.log("same");
+	// 		return true;
+	// 	}
+	// };
+
+	// this.checkLeft = function(){
+
+	// 	//console.log(boxArray.getTypeFromArray(x, y - 1));
+
+	// 	if(y > 0 && boxArray.getTypeFromArray(x -1, y) === type){
+	// 		//console.log("same");
+	// 		boxArray.boxArrayDestroyObject(x -1 , y);
+	// 		this.checkLeft();
+	// 	}
+	// };
+
+	// this.checkRight = function(){
+
+	// 	//console.log(boxArray.getTypeFromArray(x, y - 1));
+
+	// 	if(y > 0 && boxArray.getTypeFromArray(x +1, y) === type){
+	// 		//console.log("same");
+	// 		boxArray.boxArrayDestroyObject(x +1 , y);
+	// 		this.checkRight();
+	// 	}
+	// };
 }
 
 

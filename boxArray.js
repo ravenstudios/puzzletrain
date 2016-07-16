@@ -71,6 +71,48 @@ function BoxArray(){
 		}
 	};
 
+	this.getChecked = function(x, y){
+		
+		//console.log("type called");
+
+		for(var r = boxArray.length -1; r >= 0; r --){
+			
+			
+			for(var c = boxArray[r].length -1; c >= 0; c --){
+
+				
+					
+				if(boxArray[r][c].getX() === x && boxArray[r][c].getY() === y ){
+					
+					return boxArray[r][c].getChecked();
+				}
+				
+				
+			}
+		}
+	};
+
+	this.setChecked = function(x, y){
+		
+		//console.log("type called");
+
+		for(var r = boxArray.length -1; r >= 0; r --){
+			
+			
+			for(var c = boxArray[r].length -1; c >= 0; c --){
+
+				
+					
+				if(boxArray[r][c].getX() === x && boxArray[r][c].getY() === y ){
+					
+					return boxArray[r][c].setChecked();
+				}
+				
+				
+			}
+		}
+	};
+
 	this.boxArrayDestroyObject = function(x, y){
 		// console.log("boxarray destroy called");
 

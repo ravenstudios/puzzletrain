@@ -14,7 +14,7 @@ function setup(){
 	createCanvas(gameWidth, gameHeight);
 	boxArray = new BoxArray();
 	boxArray.createBoard();
-	//frameRate(10);
+	frameRate(5);
 
 }
 
@@ -51,7 +51,10 @@ function grid(){
 	}
 }
 
-
+function Point(x, y){
+	this.x = x;
+	this.y = y;
+}
 
 
 
