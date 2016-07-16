@@ -18,8 +18,7 @@ function Object(inX, inY, inSize, inType){
 
 	var checked = false;
 
-	// console.log("inX " + x);
-	// console.log("inY " + y);
+	
 
 	this.update = function(){
 		this.clicked();
@@ -56,20 +55,11 @@ function Object(inX, inY, inSize, inType){
 	};
 
 	this.clicked =function(){
-		//console.log("mx: " + mouseX + " my: " + mouseY + " x: " + x + " y: " + y);
+		
 		if(clicked === true && mouseX > x * objSize && mouseX < x * objSize + objSize && mouseY > y * objSize && mouseY < y * objSize + objSize){
-			//console.log(x + "" + y);
-			//color = "rgb(0, 0, 0)";
-			//destroy = true;
-			// console.log("d = true");
-			// console.log(this.getDestroy());
-			//boxArray.boxArrayDestroyObject(x, y);
+			
 			deleteArray.push(new Point(x, y));
 
-			for(var i = 0; i < deleteArray.length; i++){
-			//console.log("x: " + deleteArray[i].x + " y: " + deleteArray[i].y);
-			//boxArray.boxArrayDestroyObject(deleteArray[i].x, deleteArray[i].y);
-		}
 			this.crawl(new Point(x, y), true);
 			
 			
@@ -78,9 +68,6 @@ function Object(inX, inY, inSize, inType){
 
 	this.crawl = function(point, firstRun){
 
-		console.log("px: " + point.x + " py: " + point.y);
-		// while(array.length > 0 ){
-
 			for(var i = 0; i < deleteArray.length; i++){
 					if(deleteArray[i].x === point.x && deleteArray[i].y === point.y && firstRun === false){
 						console.log("break");
@@ -88,51 +75,41 @@ function Object(inX, inY, inSize, inType){
 					}
 				}
 
-		
-
-		
-	
-			//deleteArray.concat(array); //merges every returned array
-
-			var currentLoc = point;
-
-			console.log("pclx: " + currentLoc.x + " pcly: " + currentLoc.y);
-
-			//deleteArray.push(new Point(currentLoc.x, currentLoc.y));
-
-			if(this.checkLoc(currentLoc.x, currentLoc.y - 1)){//UP
+			
+			
+			if(this.checkLoc(point.x, point.y - 1)){//UP
 				
-				//return [currentLoc.x, currentLoc.y -1];
-				deleteArray.push(new Point(currentLoc.x, currentLoc.y -1));
-				boxArray.setChecked(currentLoc.x, currentLoc.y -1);
-				 this.crawl(new Point(currentLoc.x, currentLoc.y -1), [currentLoc.x, currentLoc.y -1], false);
-				 //boxArray.boxArrayDestroyObject(new Point(currentLoc.x, currentLoc.y -1));
+				
+				deleteArray.push(new Point(point.x, point.y -1));
+				boxArray.setChecked(point.x, point.y -1);
+				 this.crawl(new Point(point.x, point.y -1), [point.x, point.y -1], false);
+				 
 			}
 
-			if(this.checkLoc(currentLoc.x, currentLoc.y + 1)){//DOWN
-				deleteArray.push(new Point(currentLoc.x, currentLoc.y + 1));
-				boxArray.setChecked(currentLoc.x, currentLoc.y +1);
-				 this.crawl(new Point(currentLoc.x, currentLoc.y +1), [currentLoc.x, currentLoc.y +1], false);
-				 //boxArray.boxArrayDestroyObject(new Point(currentLoc.x, currentLoc.y +1));
+			if(this.checkLoc(point.x, point.y + 1)){//DOWN
+				deleteArray.push(new Point(point.x, point.y + 1));
+				boxArray.setChecked(point.x, point.y +1);
+				 this.crawl(new Point(point.x, point.y +1), [point.x, point.y +1], false);
+				 
 			}
 
-			if(this.checkLoc(currentLoc.x - 1, currentLoc.y)){//LEFT
-				deleteArray.push(new Point(currentLoc.x -1, currentLoc.y));
-				boxArray.setChecked(currentLoc.x -1, currentLoc.y);
-				 this.crawl(new Point(currentLoc.x -1, currentLoc.y), [currentLoc.x -1, currentLoc.y], false);
-				 boxArray.boxArrayDestroyObject(new Point(currentLoc.x -1, currentLoc.y));
+			if(this.checkLoc(point.x - 1, point.y)){//LEFT
+				deleteArray.push(new Point(point.x -1, point.y));
+				boxArray.setChecked(point.x -1, point.y);
+				 this.crawl(new Point(point.x -1, point.y), [point.x -1, point.y], false);
+				
 			}
 
-			if(this.checkLoc(currentLoc.x + 1, currentLoc.y)){//RIGHT
-				deleteArray.push(new Point(currentLoc.x + 1, currentLoc.y));
-				boxArray.setChecked(currentLoc.x +1, currentLoc.y);
-				 this.crawl(new Point(currentLoc.x +1, currentLoc.y), [currentLoc.x +1, currentLoc.y], false);
-				 //boxArray.boxArrayDestroyObject(new Point(currentLoc.x +1, currentLoc.y));
+			if(this.checkLoc(point.x + 1, point.y)){//RIGHT
+				deleteArray.push(new Point(point.x + 1, point.y));
+				boxArray.setChecked(point.x +1, point.y);
+				 this.crawl(new Point(point.x +1, point.y), [point.x +1, point.y], false);
+				 
 			}
-		//}
+		
 
 		for(var i = 0; i < deleteArray.length; i++){
-			console.log("from the bottom x: " + deleteArray[i].x + " y: " + deleteArray[i].y);
+			
 			boxArray.boxArrayDestroyObject(deleteArray[i].x, deleteArray[i].y);
 		}
 		deleteArray = [];
@@ -142,13 +119,6 @@ function Object(inX, inY, inSize, inType){
 
 
 
-
-	// this.check = function(x, y){
-	// 		this.checkUp(x, y - 1);
-	// 		this.checkDown();
-	// 		this.checkLeft();
-	// 		this.checkRight();
-	// 		//this.check();
 	// };
 
 	this.moveDown = function(){
@@ -180,37 +150,7 @@ function Object(inX, inY, inSize, inType){
 	this.setChecked = function(){
 		checked = true;
 	};
-	// this.checkDown = function(){
-
-	// 	//console.log(boxArray.getTypeFromArray(x, y - 1));
-
-	// 	if(y > 0 && boxArray.getTypeFromArray(x, y + 1) === type){
-	// 		//console.log("same");
-	// 		return true;
-	// 	}
-	// };
-
-	// this.checkLeft = function(){
-
-	// 	//console.log(boxArray.getTypeFromArray(x, y - 1));
-
-	// 	if(y > 0 && boxArray.getTypeFromArray(x -1, y) === type){
-	// 		//console.log("same");
-	// 		boxArray.boxArrayDestroyObject(x -1 , y);
-	// 		this.checkLeft();
-	// 	}
-	// };
-
-	// this.checkRight = function(){
-
-	// 	//console.log(boxArray.getTypeFromArray(x, y - 1));
-
-	// 	if(y > 0 && boxArray.getTypeFromArray(x +1, y) === type){
-	// 		//console.log("same");
-	// 		boxArray.boxArrayDestroyObject(x +1 , y);
-	// 		this.checkRight();
-	// 	}
-	// };
+	
 }
 
 
