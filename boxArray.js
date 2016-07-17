@@ -3,6 +3,7 @@
 function BoxArray(){
 
 	var boxArray = [];
+	
 
 	this.createBoard = function(){
 		for(var r = 0; r < gameWidth / 64; r ++){
@@ -22,6 +23,9 @@ function BoxArray(){
 
 	this.boxArrayUpdate = function(){
 		//console.log(boxArray);
+
+		
+
 		for(var r = boxArray.length -1; r >= 0; r --){
 			
 			
@@ -49,6 +53,8 @@ function BoxArray(){
 				
 			}
 		}
+
+		
 	};
 
 	this.getTypeFromArray = function(x, y){
@@ -106,6 +112,7 @@ function BoxArray(){
 					
 				if(boxArray[r][c].getX() === x && boxArray[r][c].getY() === y ){
 					
+
 					return boxArray[r][c].setChecked();
 				}
 				

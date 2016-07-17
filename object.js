@@ -20,31 +20,39 @@ function Object(inX, inY, inSize, inType){
 
 	var oldY;
 
+	var explode = false;
+
+	
+
 
 	this.update = function(){
 		this.clicked();
 		this.moveDown();
+		
 
 	};
 
 	this.draw = function(){
 
-		if(oldY !== undefined){
-			this.updateDrawCord();
-		}
+		if(!explode){
+			if(oldY !== undefined){
+				this.updateDrawCord();
+			}
+			
+			var corner = 20;
+			fill(color);
+			rect(drawX, drawY, objSize, objSize, corner, corner, corner, corner);
+			fill(255);
+			stroke(0);
+			strokeWeight(3);
+			noFill();
+			rect(drawX, drawY, objSize, objSize, corner, corner, corner, corner);
+			strokeWeight(1);
+
+			text("x: " + x + " y: " + y, drawX + 10, drawY + 40);
+		}	
+
 		
-		var corner = 20;
-		fill(color);
-		rect(drawX, drawY, objSize, objSize, corner, corner, corner, corner);
-		fill(255);
-		stroke(0);
-		strokeWeight(3);
-		noFill();
-		rect(drawX, drawY, objSize, objSize, corner, corner, corner, corner);
-		strokeWeight(1);
-
-		text("x: " + x + " y: " + y, drawX + 10, drawY + 40);
-
 		
 	};
 
@@ -75,14 +83,15 @@ function Object(inX, inY, inSize, inType){
 			deleteArray.push(new Point(x, y));
 
 
-			for(var i = 0; i < deleteArray.length; i++){
-			
-		}
-
 			this.crawl(new Point(x, y), true);
 			
 			
 		}
+
+
+
+
+		
 	};
 
 	this.crawl = function(point, firstRun){
@@ -201,8 +210,12 @@ function Object(inX, inY, inSize, inType){
 	};
 
 	this.setChecked = function(){
+		explodeHandler.pushExplosion(drawX, drawY, color);
+		explode = true;
 		checked = true;
 	};
+
+	
 	
 }
 

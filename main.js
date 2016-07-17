@@ -11,11 +11,14 @@ var clicked = false;
 
 var frames = 0;
 
+var explodeHandler;
+
 function setup(){
 
 	createCanvas(gameWidth, gameHeight);
 	boxArray = new BoxArray();
 	boxArray.createBoard();
+	explodeHandler = new ExplodeHandler();
 	//frameRate(5);
 
 	
@@ -30,6 +33,7 @@ function update(){
 	boxArray.boxArrayUpdate();
 	clicked = false;
 	//boxArray.getArray();
+	explodeHandler.update();
 
 
 }
@@ -42,6 +46,7 @@ function draw(){
 
 	boxArray.boxArrayDraw();
 	
+	explodeHandler.draw();
 	
 	
 	
