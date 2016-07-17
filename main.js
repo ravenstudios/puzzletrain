@@ -9,18 +9,24 @@ var boxArray;
 
 var clicked = false;
 
+var frames = 0;
+
 function setup(){
 
 	createCanvas(gameWidth, gameHeight);
 	boxArray = new BoxArray();
 	boxArray.createBoard();
-	frameRate(5);
+	//frameRate(5);
+
+	
+
+
 
 }
 
 function update(){
-
-
+	frameCounter();
+	//console.log("frames: " + frames);
 	boxArray.boxArrayUpdate();
 	clicked = false;
 	//boxArray.getArray();
@@ -30,9 +36,9 @@ function update(){
 
 function draw(){
 
-	background(100);
+	background(255);
 	update();
-	grid();
+	//grid();
 
 	boxArray.boxArrayDraw();
 	
@@ -61,4 +67,11 @@ function Point(x, y){
 function mouseClicked(){
 	clicked = true;
 	return false;
+}
+
+function frameCounter(){
+	if(frames >= 60){
+		frames = 0;
+	}
+	frames++;
 }
