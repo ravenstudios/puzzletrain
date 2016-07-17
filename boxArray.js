@@ -21,6 +21,7 @@ function BoxArray(){
 	};
 
 	this.boxArrayUpdate = function(){
+		//console.log(boxArray);
 		for(var r = boxArray.length -1; r >= 0; r --){
 			
 			
@@ -39,10 +40,10 @@ function BoxArray(){
 	};
 
 	this.boxArrayDraw = function(){
-		for(var r = 0; r < boxArray.length; r ++){
+		for(var r = boxArray.length -1; r >= 0; r --){
 			
 			
-			for(var c = 0; c < boxArray[r].length; c ++){
+			for(var c = boxArray[r].length -1; c >= 0; c --){
 
 				boxArray[r][c].draw();
 				
@@ -166,7 +167,7 @@ function BoxArray(){
 					// return;
 
 					var color = Math.floor(Math.random() * (colors.length - 0) );
-					boxArray[r].push(new Object(r, 0, gridSize, colors[color]));
+					boxArray[r].push(new Object(r , -1, gridSize, colors[color]));
 					break;
 				}
 			//}
