@@ -13,10 +13,13 @@ function Object(inX, inY, inSize, inType){
 
 	var checked = false;
 
-<<<<<<< HEAD
-	
-=======
->>>>>>> master
+	var fallSpeed = 20;
+
+	var drawX = inX *gridSize;
+	var drawY = inY * gridSize;
+
+	var oldY;
+
 
 	this.update = function(){
 		this.clicked();
@@ -25,14 +28,22 @@ function Object(inX, inY, inSize, inType){
 	};
 
 	this.draw = function(){
-		var corner = 15;
+
+		if(oldY !== undefined){
+			this.updateDrawCord();
+		}
+		
+		var corner = 20;
 		fill(color);
-		rect(x * objSize, y * objSize, objSize, objSize, corner, corner, corner, corner);
+		rect(drawX, drawY, objSize, objSize, corner, corner, corner, corner);
 		fill(255);
 		stroke(0);
 		strokeWeight(3);
 		noFill();
-		rect(x * objSize, y * objSize, objSize, objSize, corner, corner, corner, corner);
+		rect(drawX, drawY, objSize, objSize, corner, corner, corner, corner);
+		strokeWeight(1);
+
+		text("x: " + x + " y: " + y, drawX + 10, drawY + 40);
 
 		
 	};
@@ -63,12 +74,11 @@ function Object(inX, inY, inSize, inType){
 			
 			deleteArray.push(new Point(x, y));
 
-<<<<<<< HEAD
-=======
+
 			for(var i = 0; i < deleteArray.length; i++){
 			
 		}
->>>>>>> master
+
 			this.crawl(new Point(x, y), true);
 			
 			
@@ -77,10 +87,7 @@ function Object(inX, inY, inSize, inType){
 
 	this.crawl = function(point, firstRun){
 
-<<<<<<< HEAD
-=======
 
->>>>>>> master
 			for(var i = 0; i < deleteArray.length; i++){
 					if(deleteArray[i].x === point.x && deleteArray[i].y === point.y && firstRun === false){
 						console.log("break");
@@ -88,23 +95,23 @@ function Object(inX, inY, inSize, inType){
 					}
 				}
 
-<<<<<<< HEAD
+
 			
 			
 			if(this.checkLoc(point.x, point.y - 1)){//UP
 				
 				
-=======
+
 
 			if(this.checkLoc(point.x, point.y - 1)){//UP
 				
 				
->>>>>>> master
+
 				deleteArray.push(new Point(point.x, point.y -1));
 				boxArray.setChecked(point.x, point.y -1);
 				 this.crawl(new Point(point.x, point.y -1), [point.x, point.y -1], false);
 				 
-<<<<<<< HEAD
+
 			}
 
 			if(this.checkLoc(point.x, point.y + 1)){//DOWN
@@ -113,9 +120,7 @@ function Object(inX, inY, inSize, inType){
 				 this.crawl(new Point(point.x, point.y +1), [point.x, point.y +1], false);
 				 
 			}
-
-=======
-			}
+}
 
 			if(this.checkLoc(point.x, point.y + 1)){//DOWN
 				deleteArray.push(new Point(point.x, point.y + 1));
@@ -123,16 +128,13 @@ function Object(inX, inY, inSize, inType){
 				 this.crawl(new Point(point.x, point.y +1), [point.x, point.y +1], false);
 			}	 
 
->>>>>>> master
+
 			if(this.checkLoc(point.x - 1, point.y)){//LEFT
 				deleteArray.push(new Point(point.x -1, point.y));
 				boxArray.setChecked(point.x -1, point.y);
 				 this.crawl(new Point(point.x -1, point.y), [point.x -1, point.y], false);
-<<<<<<< HEAD
-				
-=======
-				 
->>>>>>> master
+
+
 			}
 
 			if(this.checkLoc(point.x + 1, point.y)){//RIGHT
@@ -163,9 +165,25 @@ function Object(inX, inY, inSize, inType){
 
 		if(y * gridSize + gridSize < gameHeight && boxArray.checkBelow(x, y) === false){
 			
-			y = y + 1;
+			oldY = y;
+			y = y +1;
+
+
 		}
 
+	};
+
+
+	this.updateDrawCord = function(){
+
+		drawX = x * gridSize;
+		if(drawY >= y * gridSize){
+			drawY = y * gridSize;
+			oldY = y;
+		}
+		if(oldY < y){
+			drawY += fallSpeed;
+		}
 	};
 
 
