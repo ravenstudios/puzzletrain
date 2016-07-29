@@ -3,7 +3,7 @@ var gameHeight = 640;
 
 var gridSize = 64;
 
-var colors = ["red", "green", "blue"];
+var colors = ["red", "green", "blue", "purple", "orange", "pink"];
 
 var boxArray;
 
@@ -11,12 +11,14 @@ var clicked = false;
 
 var frames = 0;
 
+
+
 function setup(){
 
 	createCanvas(gameWidth, gameHeight);
 	boxArray = new BoxArray();
 	boxArray.createBoard();
-	//frameRate(5);
+	
 
 	
 
@@ -26,11 +28,10 @@ function setup(){
 
 function update(){
 	frameCounter();
-	//console.log("frames: " + frames);
+	
 	boxArray.boxArrayUpdate();
 	clicked = false;
-	//boxArray.getArray();
-
+	
 
 }
 
@@ -38,9 +39,10 @@ function draw(){
 
 	background(255);
 	update();
-	//grid();
+	
 
 	boxArray.boxArrayDraw();
+	
 	
 	
 	

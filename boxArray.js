@@ -3,6 +3,7 @@
 function BoxArray(){
 
 	var boxArray = [];
+	
 
 	this.createBoard = function(){
 		for(var r = 0; r < gameWidth / 64; r ++){
@@ -10,10 +11,7 @@ function BoxArray(){
 
 			for(var c = 0; c < gameHeight / 64; c ++){
 				var color = Math.floor(Math.random() * (colors.length - 0) );
-				// console.log("x " + r * 64);
-				// console.log("y " + c * 64);
 				
-				// console.log("color: " + color);
 				
 				boxArray[r].push(new Object(r, c, gridSize, colors[color]));
 			}
@@ -21,14 +19,16 @@ function BoxArray(){
 	};
 
 	this.boxArrayUpdate = function(){
-		//console.log(boxArray);
+
+		
+
 		for(var r = boxArray.length -1; r >= 0; r --){
 			
 			
 			for(var c = boxArray[r].length -1; c >= 0; c --){
-				//console.log("r: " + r + " c: " + c);
+				
 
-				if(boxArray[r][c].getDestroy() === true){
+				if(boxArray[r][c].getDestroy() === true && boxArray[r][c].getLife() < 0){
 					boxArray[r].splice(c, 1);
 					break;
 				}
@@ -49,6 +49,8 @@ function BoxArray(){
 				
 			}
 		}
+
+		
 	};
 
 	this.getTypeFromArray = function(x, y){
@@ -106,6 +108,7 @@ function BoxArray(){
 					
 				if(boxArray[r][c].getX() === x && boxArray[r][c].getY() === y ){
 					
+
 					return boxArray[r][c].setChecked();
 				}
 				
@@ -126,9 +129,9 @@ function BoxArray(){
 					
 				if(boxArray[r][c].getX() === x  && boxArray[r][c].getY() === y ){
 					boxArray[r][c].setDestroy();
+					boxArray[r][c].setShake();
 					
-					// console.log(boxArray);
-					//console.log(boxArray[x][y].getDestroy());
+					
 					return;
 				}
 				

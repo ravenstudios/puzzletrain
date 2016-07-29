@@ -20,31 +20,57 @@ function Object(inX, inY, inSize, inType){
 
 	var oldY;
 
+	var explode = false;
+
+	var life = 15;
+
+	var numOfCrawls = 0;
+
+	var shake = false;
+	
+
 
 	this.update = function(){
 		this.clicked();
 		this.moveDown();
 
+		if(shake){
+			drawX = drawX + random(-20, 20);
+			drawY = drawY + random(-20, 20);
+
+			life--;
+
+		}
+
+		if(numOfCrawls <= 0){
+
+			this.delete();
+		}
+		
+
 	};
 
 	this.draw = function(){
 
-		if(oldY !== undefined){
-			this.updateDrawCord();
-		}
+		// if(!explode){
+			if(oldY !== undefined){
+				this.updateDrawCord();
+			}
+			
+			var corner = 20;
+			fill(color);
+			rect(drawX, drawY, objSize, objSize, corner, corner, corner, corner);
+			fill(255);
+			stroke(0);
+			strokeWeight(3);
+			noFill();
+			rect(drawX, drawY, objSize, objSize, corner, corner, corner, corner);
+			strokeWeight(1);
+
+			//text("x: " + x + " y: " + y, drawX + 10, drawY + 40);
+		//}	
+
 		
-		var corner = 20;
-		fill(color);
-		rect(drawX, drawY, objSize, objSize, corner, corner, corner, corner);
-		fill(255);
-		stroke(0);
-		strokeWeight(3);
-		noFill();
-		rect(drawX, drawY, objSize, objSize, corner, corner, corner, corner);
-		strokeWeight(1);
-
-		text("x: " + x + " y: " + y, drawX + 10, drawY + 40);
-
 		
 	};
 
@@ -75,88 +101,89 @@ function Object(inX, inY, inSize, inType){
 			deleteArray.push(new Point(x, y));
 
 
-			for(var i = 0; i < deleteArray.length; i++){
-			
-		}
-
 			this.crawl(new Point(x, y), true);
 			
 			
 		}
+
+
+
+
+		
 	};
 
 	this.crawl = function(point, firstRun){
 
-
-			for(var i = 0; i < deleteArray.length; i++){
-					if(deleteArray[i].x === point.x && deleteArray[i].y === point.y && firstRun === false){
-						console.log("break");
-						return;
-					}
-				}
-
-
-			
-			
-			if(this.checkLoc(point.x, point.y - 1)){//UP
-				
-				
-
-
-			if(this.checkLoc(point.x, point.y - 1)){//UP
-				
-				
-
-				deleteArray.push(new Point(point.x, point.y -1));
-				boxArray.setChecked(point.x, point.y -1);
-				 this.crawl(new Point(point.x, point.y -1), [point.x, point.y -1], false);
-				 
-
-			}
-
-			if(this.checkLoc(point.x, point.y + 1)){//DOWN
-				deleteArray.push(new Point(point.x, point.y + 1));
-				boxArray.setChecked(point.x, point.y +1);
-				 this.crawl(new Point(point.x, point.y +1), [point.x, point.y +1], false);
-				 
-			}
-}
-
-			if(this.checkLoc(point.x, point.y + 1)){//DOWN
-				deleteArray.push(new Point(point.x, point.y + 1));
-				boxArray.setChecked(point.x, point.y +1);
-				 this.crawl(new Point(point.x, point.y +1), [point.x, point.y +1], false);
-			}	 
-
-
-			if(this.checkLoc(point.x - 1, point.y)){//LEFT
-				deleteArray.push(new Point(point.x -1, point.y));
-				boxArray.setChecked(point.x -1, point.y);
-				 this.crawl(new Point(point.x -1, point.y), [point.x -1, point.y], false);
-
-
-			}
-
-			if(this.checkLoc(point.x + 1, point.y)){//RIGHT
-				deleteArray.push(new Point(point.x + 1, point.y));
-				boxArray.setChecked(point.x +1, point.y);
-				 this.crawl(new Point(point.x +1, point.y), [point.x +1, point.y], false);
-				 
-			}
-		
+		numOfCrawls++;
 
 		for(var i = 0; i < deleteArray.length; i++){
-			
-			boxArray.boxArrayDestroyObject(deleteArray[i].x, deleteArray[i].y);
+
+			if(deleteArray[i].x === point.x && deleteArray[i].y === point.y && firstRun === false){
+				console.log("break");
+				return;
+			}
 		}
+
+		if(this.checkLoc(point.x, point.y - 1)){//UP
+				
+				
+
+			deleteArray.push(new Point(point.x, point.y -1));
+			boxArray.setChecked(point.x, point.y -1);
+			 this.crawl(new Point(point.x, point.y -1), [point.x, point.y -1], false);
+				 
+
+		}
+
+		if(this.checkLoc(point.x, point.y + 1)){//DOWN
+			deleteArray.push(new Point(point.x, point.y + 1));
+			boxArray.setChecked(point.x, point.y +1);
+			this.crawl(new Point(point.x, point.y +1), [point.x, point.y +1], false);
+		}	 
+
+
+		if(this.checkLoc(point.x - 1, point.y)){//LEFT
+			deleteArray.push(new Point(point.x -1, point.y));
+			boxArray.setChecked(point.x -1, point.y);
+			this.crawl(new Point(point.x -1, point.y), [point.x -1, point.y], false);
+
+
+		}
+
+		if(this.checkLoc(point.x + 1, point.y)){//RIGHT
+			deleteArray.push(new Point(point.x + 1, point.y));
+			boxArray.setChecked(point.x +1, point.y);
+			 this.crawl(new Point(point.x +1, point.y), [point.x +1, point.y], false);
+				 
+		}
+		
+		
+		numOfCrawls --;
+			
+		
+	};
+
+	this.delete = function(){
+
+		if(deleteArray.length >=4){
+
+			for(var j = 0; j < deleteArray.length; j++){
+				
+				
+				boxArray.boxArrayDestroyObject(deleteArray[j].x, deleteArray[j].y);
+
+			}
+
+			deleteArray = [];
+		}
+
 		deleteArray = [];
+
 	};
 
 
 
-
-
-	// };
+	
 
 	this.moveDown = function(){
 
@@ -166,7 +193,7 @@ function Object(inX, inY, inSize, inType){
 		if(y * gridSize + gridSize < gameHeight && boxArray.checkBelow(x, y) === false){
 			
 			oldY = y;
-			y = y +1;
+			y = y + 1;
 
 
 		}
@@ -201,7 +228,17 @@ function Object(inX, inY, inSize, inType){
 	};
 
 	this.setChecked = function(){
+		//explodeHandler.pushExplosion(drawX, drawY, color);
+		explode = true;
 		checked = true;
+	};
+
+	this.getLife = function(){
+		return life;
+	};
+
+	this.setShake = function(){
+		shake = true;
 	};
 	
 }
@@ -222,7 +259,15 @@ function setColor(c){
 
 		case "blue":
 			return "rgb(0,0,255)";
-				
+		
+		case "purple":
+			return "rgb(102,0,104)";
+
+		case "orange":
+			return "rgb(255,128,0)";
+
+		case "pink":
+			return "rgb(255,51,153)";		
 	}
 
 }
